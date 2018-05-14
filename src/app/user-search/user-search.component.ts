@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-search',
@@ -6,12 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-search.component.css']
 })
 export class UserSearchComponent implements OnInit {
+  constructor(
+    private router: Router
+  ) {}
 
-  constructor() { }
+  searchInput: string;
 
-  searchInput:string;
-
-  ngOnInit() {
+  findUser(){
+    this.router.navigate(['user', this.searchInput])
   }
 
+  ngOnInit() {}
 }
