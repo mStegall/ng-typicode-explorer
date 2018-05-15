@@ -1,7 +1,7 @@
-import { map, switchMap } from 'rxjs/operators';
+import { tap, map, switchMap, catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { UserService } from '../user-shared/user.service';
 import { User } from '../user-shared/user.model';
@@ -12,24 +12,36 @@ import { User } from '../user-shared/user.model';
   styleUrls: ['./user-home.component.css']
 })
 export class UserHomeComponent implements OnInit {
-  id$: Observable<string>;
-  user$: Observable<User>;
+  user: User;
+
+  error: string ;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService
   ) {}
 
-  getHero(idString: string) {
+  userError = (error: Error) => {
+    this.error = `We had some trouble getting your user: ${error.message}`;
+    console.log(this.error);
+    return of({} as User);
+  }
+
+  getUser(idString: string) {
     const id = parseInt(idString, 10);
+    if (isNaN(id)) {
+      throw new Error(`${idString} is not a user id`);
+    }
     return this.userService.getUser(id);
   }
 
   ngOnInit() {
-    this.user$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => this.getHero(params.get('id')))
-    );
-    this.id$ = this.route.paramMap.pipe(
-      map((params: ParamMap) => params.get('id'))
-    );
+    this.route.paramMap
+      .pipe(
+        map(params => params.get('id')),
+        switchMap(idString => this.getUser(idString))
+        catchError(this.userError)
+      )
+      // .subscribe(_ => null);
+    .subscribe(user => (this.user = user));
   }
 }

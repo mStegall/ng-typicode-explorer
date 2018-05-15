@@ -1,6 +1,7 @@
 <a routerLink="/">Go Home</a>
-<p>
-  user-home works! On id {{id$ | async}}
-</p>
-<h4>{{five}}</h4>
-<pre>{{user$ | async | json}}</pre>
+<div *ngIf="error">{{error}}</div>
+<div *ngIf="user && !error">
+  <h2>{{user.name}}</h2>
+  <h3>{{user.username}}: <a href="mailto:{{user.email}}"></a>{{user.email}}</h3>
+  <!-- <pre>{{user | json}}</pre> -->
+</div>
