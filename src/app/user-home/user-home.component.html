@@ -3,5 +3,6 @@
 <div *ngIf="user && !error">
   <h2>{{user.name}}</h2>
   <h3>{{user.username}}: <a href="mailto:{{user.email}}"></a>{{user.email}}</h3>
+  <app-posts-overview [userId]="user.id"></app-posts-overview>
   <!-- <pre>{{user | json}}</pre> -->
 </div>

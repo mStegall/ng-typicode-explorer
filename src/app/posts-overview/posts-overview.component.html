@@ -1,0 +1,4 @@
+<!-- <pre>{{posts | json}}</pre> -->
+<ul *ngIf="posts">
+  <li *ngFor="let post of posts"><a routerLink="/post/{{post.id}}">{{post.title}}</a></li>
+</ul>

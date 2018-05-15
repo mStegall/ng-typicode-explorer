@@ -9,9 +9,15 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 // Components
 import { UserSearchComponent } from './user-search/user-search.component';
 import { UserHomeComponent } from './user-home/user-home.component';
+import { PostsOverviewComponent } from './posts-overview/posts-overview.component';
 
 @NgModule({
-  declarations: [AppComponent, UserSearchComponent, UserHomeComponent],
+  declarations: [
+    AppComponent,
+    UserSearchComponent,
+    UserHomeComponent,
+    PostsOverviewComponent
+  ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent]

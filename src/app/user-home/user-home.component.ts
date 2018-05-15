@@ -20,9 +20,8 @@ export class UserHomeComponent implements OnInit {
     private userService: UserService
   ) {}
 
-  userError = (error: Error) => {
+  userError (error: Error) {
     this.error = `We had some trouble getting your user: ${error.message}`;
-    console.log(this.error);
     return of({} as User);
   }
 
@@ -38,10 +37,9 @@ export class UserHomeComponent implements OnInit {
     this.route.paramMap
       .pipe(
         map(params => params.get('id')),
-        switchMap(idString => this.getUser(idString))
+        switchMap(idString => this.getUser(idString)),
         catchError(this.userError)
       )
-      // .subscribe(_ => null);
     .subscribe(user => (this.user = user));
   }
 }
